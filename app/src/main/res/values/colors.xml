@@ -14,5 +14,6 @@
 
     <color name ="color_worst_tip">#DC1E0B</color>
     <color name ="color_best_tip">#35BA01</color>
+    <color name="jet_black">#0A0A0A</color>
 
 </resources>

@@ -14,11 +14,15 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+
     private static final String  TAG = "MainActivity";
     private static final int  INITIAL_TIP_PERCENT = 15;
+
+
     private EditText etBaseAmount;
-    private TextView tvPercentageLabel,tvTotalAmount,tvTipAmount,tvTipDescription;
-    private SeekBar seekBarTip;
+    private TextView tvPercentageLabel,tvTotalAmount,tvTipAmount,tvTipDescription,tvPerPerson,tvSplitLabel;
+    private SeekBar seekBarTip,seekBarPersons;
+
 
 
 
@@ -33,17 +37,23 @@ public class MainActivity extends AppCompatActivity {
         tvTipAmount = findViewById(R.id.tvTipAmount);
         seekBarTip = findViewById(R.id.seekBarTip);
         tvTipDescription = findViewById(R.id.tvTipDescription);
+        tvPerPerson = findViewById(R.id.tvPerPerson);
+        seekBarPersons = findViewById(R.id.seekBarPersons);
+        tvSplitLabel = findViewById(R.id.tvSplitLabel);
 
         updateTipDescription(INITIAL_TIP_PERCENT);
         seekBarTip.setProgress(INITIAL_TIP_PERCENT);
+
         tvPercentageLabel.setText(Integer.toString(INITIAL_TIP_PERCENT)+"%");
+        computeTipAndTotal();
         seekBarTip.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 //                Log.i(TAG,"onProgressChanged "+progress);
                 String value = progress + "%";
                 tvPercentageLabel.setText(value);
-                computeTipAndTotal();
+                double total = computeTipAndTotal();
+                splitAbstraction(seekBarPersons.getProgress(),total);
                 updateTipDescription(progress);
 
             }
@@ -53,6 +63,25 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) { }
+        });
+
+        seekBarPersons.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                tvSplitLabel.setText(progress);
+                double total  = computeTipAndTotal();
+                splitAbstraction(seekBar.getProgress(),total);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
         });
 
         etBaseAmount.addTextChangedListener(new TextWatcher() {
@@ -67,7 +96,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
 
-                computeTipAndTotal();
+                double total = computeTipAndTotal();
+                splitAbstraction(seekBarPersons.getProgress(),total);
             }
         });
     }
@@ -75,19 +105,30 @@ public class MainActivity extends AppCompatActivity {
     private void updateTipDescription(int progress) {
 
         String tipDescription = "";
+        String unicode = "";
         if(progress>=0 && progress<=9){
             tipDescription = "Poor";
+//            unicode = "\uD83D\uDE21";
         }else if(progress >9 && progress <=14){
             tipDescription = "Average";
+//            unicode =    "\uD83D\uDE0C";
         }else if(progress >14 && progress <=19){
             tipDescription = "Good";
+//            unicode ="\uD83D\uDE00";
         }else if(progress >19 && progress <=24){
             tipDescription = "Great";
+//            unicode ="\uD83D\uDE0B";
         }else{
-            tipDescription = "Great";
+            tipDescription = "Amazing";
+//            unicode ="\uD83D\uDE0D";
         }
 
-        tvTipDescription.setText(tipDescription);
+
+        if(!unicode.isEmpty()){
+            tvTipDescription.setText(tipDescription.toString().replace(tipDescription, unicode));
+        }else{
+            tvTipDescription.setText(tipDescription);
+        }
 
         ArgbEvaluator argbEvaluator = new ArgbEvaluator();
         int color = (int)(argbEvaluator.evaluate(
@@ -97,20 +138,36 @@ public class MainActivity extends AppCompatActivity {
         tvTipDescription.setTextColor(color);
     }
 
-    private void computeTipAndTotal() {
+    private double computeTipAndTotal() {
 
         if(etBaseAmount.getText().toString().isEmpty()){
-            tvTipAmount.setText("");
-            tvTotalAmount.setText("");
-            return;
+            tvTipAmount.setText(String.format("%.2f",0.00));
+            tvTotalAmount.setText(String.format("%.2f",0.00));
+            return 0;
         }
         double baseAmount = Double.parseDouble(etBaseAmount.getText().toString());
         int tipPercent = seekBarTip.getProgress();
         double tipAmount = baseAmount*tipPercent/100;
         double totalAmount  = tipAmount+baseAmount;
 
-
         tvTipAmount.setText(String.format("%.2f",tipAmount));
         tvTotalAmount.setText(String.format("%.2f",totalAmount));
+
+        return totalAmount;
+    }
+
+    private void splitAbstraction(int splitNo,double totalAmount){
+        double tipPerPerson;
+
+        tvSplitLabel.setText(String.format("Split By %d", splitNo));
+
+        if(etBaseAmount.getText().toString().isEmpty()){
+            tvPerPerson.setText(String.format("%.2f",0.00));
+        }
+
+        tipPerPerson = totalAmount/splitNo;
+
+        tvPerPerson.setText(String.format("%.2f",tipPerPerson));
+
     }
 }
