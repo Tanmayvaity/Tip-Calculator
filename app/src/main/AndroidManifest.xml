@@ -10,6 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TipCalculator">
         <activity
+            android:name=".Settings"
+            android:exported="false"
+            android:label="@string/settings"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".PreviousTips"
+            android:exported="false"
+            android:label="@string/previous_tips"
+            android:parentActivityName=".MainActivity"/>
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

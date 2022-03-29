@@ -1,15 +1,22 @@
 package com.example.tipcalculator;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.animation.ArgbEvaluator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -22,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText etBaseAmount;
     private TextView tvPercentageLabel,tvTotalAmount,tvTipAmount,tvTipDescription,tvPerPerson,tvSplitLabel;
     private SeekBar seekBarTip,seekBarPersons;
+    private Button btSave;
 
 
 
@@ -30,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         etBaseAmount = findViewById(R.id.etBaseAmount);
         tvPercentageLabel = findViewById(R.id.tvPercentageLabel);
@@ -40,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         tvPerPerson = findViewById(R.id.tvPerPerson);
         seekBarPersons = findViewById(R.id.seekBarPersons);
         tvSplitLabel = findViewById(R.id.tvSplitLabel);
+        btSave = findViewById(R.id.btSave);
 
         updateTipDescription(INITIAL_TIP_PERCENT);
         seekBarTip.setProgress(INITIAL_TIP_PERCENT);
@@ -100,6 +110,43 @@ public class MainActivity extends AppCompatActivity {
                 splitAbstraction(seekBarPersons.getProgress(),total);
             }
         });
+
+        btSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,PreviousTips.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_item,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()){
+            case R.id.save_as_pdf:
+                Toast.makeText(this,"save as pdf",Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.settings:
+                intent = new Intent(this,Settings.class);
+                startActivity(intent);
+                return true;
+            case R.id.tips:
+                intent = new Intent(this,PreviousTips.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+
     }
 
     private void updateTipDescription(int progress) {
@@ -168,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
         tipPerPerson = totalAmount/splitNo;
 
         tvPerPerson.setText(String.format("%.2f",tipPerPerson));
+
 
     }
 }
