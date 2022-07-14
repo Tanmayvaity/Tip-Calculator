@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText etBaseAmount;
     private TextView tvPercentageLabel,tvTotalAmount,tvTipAmount,tvTipDescription,tvPerPerson,tvSplitLabel;
     private SeekBar seekBarTip,seekBarPersons;
-    private Button btSave;
+    private Button btNext;
+
 
 
 
@@ -49,13 +52,15 @@ public class MainActivity extends AppCompatActivity {
         tvPerPerson = findViewById(R.id.tvPerPerson);
         seekBarPersons = findViewById(R.id.seekBarPersons);
         tvSplitLabel = findViewById(R.id.tvSplitLabel);
-        btSave = findViewById(R.id.btSave);
+        btNext = findViewById(R.id.btNext);
+
 
         updateTipDescription(INITIAL_TIP_PERCENT);
         seekBarTip.setProgress(INITIAL_TIP_PERCENT);
 
         tvPercentageLabel.setText(Integer.toString(INITIAL_TIP_PERCENT)+"%");
         computeTipAndTotal();
+
         seekBarTip.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -82,26 +87,19 @@ public class MainActivity extends AppCompatActivity {
                 double total  = computeTipAndTotal();
                 splitAbstraction(seekBar.getProgress(),total);
             }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
         etBaseAmount.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -111,11 +109,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btSave.setOnClickListener(new View.OnClickListener() {
+        btNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,PreviousTips.class);
-                startActivity(intent);
+//                Toast.makeText(MainActivity.this,"tip saved successfyully",Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(MainActivity.this,MapPage.class);
+                startActivity(i);
             }
         });
     }
@@ -123,7 +122,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.menu_item,menu);
+
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_item,menu);
         return true;
     }
 
@@ -192,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
             tvTotalAmount.setText(String.format("%.2f",0.00));
             return 0;
         }
+
         double baseAmount = Double.parseDouble(etBaseAmount.getText().toString());
         int tipPercent = seekBarTip.getProgress();
         double tipAmount = baseAmount*tipPercent/100;
@@ -218,4 +220,5 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 }

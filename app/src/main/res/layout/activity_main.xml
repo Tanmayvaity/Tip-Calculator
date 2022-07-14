@@ -57,7 +57,7 @@
         android:layout_marginStart="32dp"
         android:ems="8"
         android:hint="Bill Amount"
-        android:inputType="textPersonName"
+        android:inputType="number|numberDecimal"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@id/tvBaseLabel"
         app:layout_constraintStart_toEndOf="@+id/tvBaseLabel"
@@ -157,11 +157,11 @@
         app:layout_constraintTop_toTopOf="@+id/tvPerPersonLabel" />
 
     <Button
-        android:id="@+id/btSave"
+        android:id="@+id/btNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Save"
+        android:text="next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
