@@ -19,7 +19,7 @@ public class Settings extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
 
         ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#0F9D58"));
+                = new ColorDrawable(Color.parseColor("#000000"));
 
         actionBar.setBackgroundDrawable(colorDrawable);
     }
