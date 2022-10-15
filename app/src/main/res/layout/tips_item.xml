@@ -15,44 +15,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardMapImage"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="8dp"
-            card_view:cardCornerRadius="60dp"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toTopOf="@+id/tipId">
-
-            <ImageView
-                android:id="@+id/mapImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_baseline_person_24" />
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/tipId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Tip"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textStyle="bold"
-            card_view:layout_constraintStart_toEndOf="@+id/cardMapImage"
-            card_view:layout_constraintTop_toTopOf="@+id/tipPerPerson" />
 
         <TextView
             android:id="@+id/tipTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:text="Tip Total"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold"
+
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="@+id/tipPerPerson" />
+
+        <TextView
+            android:id="@+id/tipId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tip "
 
             card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintStart_toStartOf="@+id/tipId"
-            card_view:layout_constraintTop_toBottomOf="@+id/tipId" />
+            card_view:layout_constraintStart_toStartOf="@+id/tipTotal"
+            card_view:layout_constraintTop_toBottomOf="@+id/tipTotal" />
 
         <TextView
             android:id="@+id/tipPerPerson"
@@ -71,14 +55,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            card_view:layout_constraintGuide_percent="0.7" />
+            card_view:layout_constraintGuide_end="122dp" />
 
         <TextView
-            android:id="@+id/timeValue"
+            android:id="@+id/splitNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="time"
+            android:text="split by :"
             card_view:layout_constraintEnd_toEndOf="@+id/tipPerPerson"
             card_view:layout_constraintTop_toBottomOf="@+id/tipPerPerson" />
 

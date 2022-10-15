@@ -6,32 +6,42 @@ public class TipsList {
 
 
     public static int id=0;
-    private int tipName;
-    private  int total ;
-    private  int totalPerPerson;
+    private double tipName;
+    private  double total ;
+    private  double totalPerPerson;
+    private int splitNo;
+    private int tip;
 
 
 
-    public TipsList(int total , int totalPerPerson ) {
-        this.tipName = ++id;
+    public TipsList(int tip,double total , double totalPerPerson,int splitNo ) {
+        this.tip = tip;
         this.total = total;
         this.totalPerPerson = totalPerPerson;
+        this.splitNo = splitNo;
 
     }
 
 
 
+    public int getTip(){
+        return tip;
+    }
 
-    public  int getTipName() {
+    public  double getTipName() {
         return tipName;
     }
 
-    public int getTotal() {
+    public double getTotal() {
         return total;
     }
 
-    public int getTotalPerPerson() {
+    public double getTotalPerPerson() {
         return totalPerPerson;
+    }
+
+    public int getSplitNo(){
+        return splitNo;
     }
 
 //    public ArrayList<TipsList> createTips(int noOfTips){

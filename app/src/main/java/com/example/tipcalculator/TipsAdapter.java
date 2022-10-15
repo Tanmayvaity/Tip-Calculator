@@ -14,8 +14,20 @@ import java.util.ArrayList;
 public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.ViewHolder> {
 
     ArrayList<TipsList> tips;
-    public TipsAdapter(ArrayList<TipsList> tips) {
+    Context context;
+    OnItemClickListener listener;
+    public TipsAdapter(Context context, ArrayList<TipsList> tips) {
         this.tips = tips;
+        this.context = context;
+
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(View itemView , int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -31,9 +43,10 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull TipsAdapter.ViewHolder holder, int position) {
         TipsList tip  = tips.get(position);
-        holder.tipId.setText("Tips: "+tip.getTipName());
-        holder.tipTotal.setText(""+tip.getTotal());
-        holder.tipPerPerson.setText(""+tip.getTotalPerPerson());
+        holder.tipId.setText(tip.getTip() + "%");
+        holder.tipTotal.setText(String.valueOf(tip.getTotal()));
+        holder.tipPerPerson.setText(String.valueOf(tip.getTotalPerPerson()));
+        holder.splitNo.setText("split by:"+ tip.getSplitNo());
 
 
     }
@@ -44,7 +57,7 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.ViewHolder> {
     }
 
     public class  ViewHolder extends RecyclerView.ViewHolder{
-        private TextView tipId,tipTotal,tipPerPerson;
+        private TextView tipId,tipTotal,tipPerPerson,splitNo;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -54,6 +67,21 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.ViewHolder> {
             tipId = itemView.findViewById(R.id.tipId);
             tipTotal = itemView.findViewById(R.id.tipTotal);
             tipPerPerson = itemView.findViewById(R.id.tipPerPerson);
+            splitNo = itemView.findViewById(R.id.splitNo);
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position !=RecyclerView.NO_POSITION){
+                            listener.onItemClick(itemView, position);
+                        }
+                    }
+                }
+            });
         }
     }
 }

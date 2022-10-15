@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.animation.ArgbEvaluator;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private static final String TAG = "MainActivity";
-    private static final int INITIAL_TIP_PERCENT = 15;
+//    private static final int INITIAL_TIP_PERCENT = 15;
 
 
     private EditText etBaseAmount;
@@ -34,11 +36,13 @@ public class MainActivity extends AppCompatActivity {
     private Button btNext;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        
 
         etBaseAmount = findViewById(R.id.etBaseAmount);
         tvPercentageLabel = findViewById(R.id.tvPercentageLabel);
@@ -52,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
         btNext = findViewById(R.id.btNext);
 
 
-        updateTipDescription(INITIAL_TIP_PERCENT);
-        seekBarTip.setProgress(INITIAL_TIP_PERCENT);
+        updateTipDescription(seekBarTip.getProgress());
+//        seekBarTip.setProgress(INITIAL_TIP_PERCENT);
 
-        tvPercentageLabel.setText(Integer.toString(INITIAL_TIP_PERCENT) + "%");
+        tvPercentageLabel.setText(Integer.toString(seekBarTip.getProgress()) + "%");
         computeTipAndTotal();
 
         seekBarTip.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -65,8 +69,9 @@ public class MainActivity extends AppCompatActivity {
                 String value = progress + "%";
                 tvPercentageLabel.setText(value);
                 double total = computeTipAndTotal();
-                splitAbstraction(seekBarPersons.getProgress(), total);
                 updateTipDescription(progress);
+                splitAbstraction(seekBarPersons.getProgress(), total);
+
 
             }
 
@@ -117,11 +122,42 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                Toast.makeText(MainActivity.this,"tip saved successfyully",Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(MainActivity.this, MapPage.class);
-                startActivity(i);
+//                saveTipsInfo("TipsInfo");
+
+//                Intent i = new Intent(MainActivity.this, PreviousTips.class);
+//                startActivity(i);
+
+
+                TipsDatabaseHelper tipsDb = new TipsDatabaseHelper(MainActivity.this);
+                tipsDb.addTip(
+                        seekBarTip.getProgress(),
+                        Double.parseDouble(tvTotalAmount.getText().toString()),
+                        Double.parseDouble(tvPerPerson.getText().toString()),
+                        seekBarPersons.getProgress()
+                );
             }
         });
     }
+
+//    private void saveTipsInfo(String name) {
+//        String baseAmount = etBaseAmount.getText().toString();
+//        int tipPercent  = seekBarTip.getProgress();
+//        String tipAmount = tvTipAmount.getText().toString();
+//        String Total = tvTotalAmount.getText().toString();
+//        int splitNo = seekBarPersons.getProgress();
+//        String SplitValue = tvPerPerson.getText().toString();
+//        String tipDescription = tvTipDescription.getText().toString();
+//        PrefManager pref = new PrefManager(MainActivity.this,name);
+//        pref.saveDetails(
+//                baseAmount,
+//                tipPercent,
+//                tipAmount,
+//                Total,
+//                splitNo,
+//                SplitValue,
+//                tipDescription);
+//
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

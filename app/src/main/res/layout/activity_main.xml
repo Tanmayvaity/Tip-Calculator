@@ -68,6 +68,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:max="30"
+        android:progress="15"
         app:layout_constraintBottom_toBottomOf="@+id/tvPercentageLabel"
         app:layout_constraintStart_toStartOf="@+id/etBaseAmount"
         app:layout_constraintTop_toTopOf="@+id/tvPercentageLabel" />
@@ -160,11 +161,13 @@
         android:id="@+id/btNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:text="next"
+        android:layout_marginTop="48dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.439"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPerPerson" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

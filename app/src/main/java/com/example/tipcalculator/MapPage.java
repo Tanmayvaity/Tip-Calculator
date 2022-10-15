@@ -1,15 +1,8 @@
 package com.example.tipcalculator;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-
-import android.app.SearchManager;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -18,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -26,7 +18,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -36,64 +27,13 @@ public class MapPage extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     private Marker marker;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_page);
 
-//        searchView = findViewById(R.id.placeSearchBar);
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-
-
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//
-////                String location = searchView.getQuery().toString();
-//
-//
-//                List<Address> addressList = null;
-//
-//                if(query!=null && !query.trim().equals("")){
-//                    Geocoder geocoder = new Geocoder(MapPage.this);
-//
-//                    try {
-//                        addressList = geocoder.getFromLocationName(query,1);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//
-//                    }
-//
-//                    if((addressList != null ? addressList.size() : 0) >0){
-//                        Address address = addressList.get(0);
-//
-//                        LatLng latLng = new LatLng(address.getLatitude(),address.getLongitude());
-//
-//                        if(marker!=null){
-//                            marker.remove();
-//                        }
-//                        marker = mMap.addMarker(new MarkerOptions()
-//                                .position(latLng)
-//                                .title(query)
-//                        );
-//
-//                        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-//                    }else{
-//                        Toast.makeText(MapPage.this, "invalid place", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                }
-//
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                return false;
-//            }
-//        });
-
 
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
@@ -104,9 +44,7 @@ public class MapPage extends AppCompatActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         Log.i(TAG, "onMapReady: ");
-
         mMap = googleMap;
-
     }
 
 
@@ -115,7 +53,6 @@ public class MapPage extends AppCompatActivity implements OnMapReadyCallback {
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.map_options_menu, menu);
-
         MenuItem item = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) item.getActionView();
         searchView.setQueryHint("Enter place");
@@ -127,10 +64,9 @@ public class MapPage extends AppCompatActivity implements OnMapReadyCallback {
                 locationSearch(query);
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.i(TAG, "onQueryTextChange: ");
+//                Log.i(TAG, "onQueryTextChange: ");
                 return false;
             }
         });
@@ -141,7 +77,6 @@ public class MapPage extends AppCompatActivity implements OnMapReadyCallback {
 
     private void locationSearch(String query) {
         List<Address> addressList = null;
-
 
         if (query != null && !query.trim().equals("")) {
             Geocoder geocoder = new Geocoder(MapPage.this);
@@ -161,6 +96,7 @@ public class MapPage extends AppCompatActivity implements OnMapReadyCallback {
                 if (marker != null) {
                     marker.remove();
                 }
+
                 marker = mMap.addMarker(new MarkerOptions()
                         .position(latLng)
                         .title(query)
@@ -173,6 +109,5 @@ public class MapPage extends AppCompatActivity implements OnMapReadyCallback {
 
         }
     }
-
 
 }
