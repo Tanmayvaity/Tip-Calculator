@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                etBaseAmount.setError(null);
             }
 
             @Override
@@ -126,6 +127,11 @@ public class MainActivity extends AppCompatActivity {
 
 //                Intent i = new Intent(MainActivity.this, PreviousTips.class);
 //                startActivity(i);
+
+                if(etBaseAmount.getText().toString().trim().isEmpty()){
+                    etBaseAmount.setError("base amount cannot be empty");
+                    return;
+                }
 
 
                 TipsDatabaseHelper tipsDb = new TipsDatabaseHelper(MainActivity.this);
@@ -172,13 +178,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent intent;
         switch (item.getItemId()) {
-            case R.id.save_as_pdf:
-                Toast.makeText(this, "save as pdf", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.settings:
-                intent = new Intent(this, Settings.class);
-                startActivity(intent);
-                return true;
             case R.id.tips:
                 intent = new Intent(this, PreviousTips.class);
                 startActivity(intent);

@@ -2,21 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/save_as_pdf"
-        android:icon="@drawable/ic_baseline_picture_as_pdf_24"
-        app:showAsAction="always"
-        android:title="settings"/>
 
-    <item
-        android:id="@+id/settings"
-        android:icon="@drawable/ic_baseline_settings_24"
-        app:showAsAction="never"
-        android:title="settings"/>
+
+
 
     <item
         android:id="@+id/tips"
-        app:showAsAction="never"
-        android:title="previous tips"/>
+        app:showAsAction="always"
+        android:title="previous tips"
+        android:icon="@drawable/ic_tips"
+        />
 
 </menu>

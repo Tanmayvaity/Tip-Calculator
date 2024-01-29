@@ -6,11 +6,7 @@
     <item
         android:id="@+id/delete_all"
         android:icon="@drawable/ic_baseline_delete_24"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         android:title="delete all"/>
-    <item
-        android:id="@+id/firebaseUpload"
-        android:icon="@drawable/ic_baseline_cloud_upload_24"
-        app:showAsAction="ifRoom"
-        android:title="upload to cloud"/>
+
 </menu>

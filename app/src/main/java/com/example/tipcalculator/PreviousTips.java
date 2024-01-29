@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,14 +39,14 @@ public class PreviousTips extends AppCompatActivity {
     private TipsDatabaseHelper tipsDb;
     private ImageView ivEmptyFolder;
     private TextView tvEmptyFolder;
-    private FirebaseFirestore firestore;
+
+    private TipsAdapter adapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_previous_tips);
-
 
 
         rvPreviousTips = findViewById(R.id.rvPreviousTips);
@@ -55,16 +56,11 @@ public class PreviousTips extends AppCompatActivity {
 
         storeDataInArrays();
 
-        firestore = FirebaseFirestore.getInstance();
-
-
-
-
-        TipsAdapter adapter = new TipsAdapter(PreviousTips.this,tipsList);
+        adapter = new TipsAdapter(PreviousTips.this, tipsList);
         adapter.setOnItemClickListener(new TipsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
-                Toast.makeText(PreviousTips.this,"item clicked" +position,Toast.LENGTH_SHORT).show();
+                Toast.makeText(PreviousTips.this, "item clicked" + position, Toast.LENGTH_SHORT).show();
             }
         });
         rvPreviousTips.setAdapter(adapter);
@@ -100,8 +96,7 @@ public class PreviousTips extends AppCompatActivity {
 
     }
 
-    public void createTips(int tips){
-
+    public void createTips(int tips) {
 
 
 //        for(int i=0;i<tips;i++){
@@ -114,19 +109,16 @@ public class PreviousTips extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.previous_tips_menu,menu);
+        inflater.inflate(R.menu.previous_tips_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId()==R.id.delete_all){
+        if (item.getItemId() == R.id.delete_all) {
             confirmDialog();
         }
-        if(item.getItemId() == R.id.firebaseUpload){
-//            uploadToFirebase();
 
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -167,17 +159,23 @@ public class PreviousTips extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 TipsDatabaseHelper myDB = new TipsDatabaseHelper(PreviousTips.this);
                 myDB.deleteAllData();
-
-                //Refresh Activity
                 Intent intent = new Intent(PreviousTips.this, MainActivity.class);
                 startActivity(intent);
                 finish();
+
+                Toast.makeText(PreviousTips.this,"data deleted", Toast.LENGTH_SHORT).show();
+
+                finish();
+
+//                Intent intent = new Intent(PreviousTips.this, MainActivity.class);
+//                startActivity(intent);
+
             }
         });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
+                dialogInterface.dismiss();
             }
         });
         builder.create().show();
